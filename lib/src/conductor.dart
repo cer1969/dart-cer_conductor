@@ -1,10 +1,11 @@
 // CRISTIAN ECHEVERRÍA RABÍ
 
+import 'interfaces.dart';
 import 'category.dart';
 
 //------------------------------------------------------------------------------
 
-class Conductor {
+class Conductor extends PrettyPrint {
   /*
 	Container for conductor characteristics
 	name     : Name of conductor
@@ -38,27 +39,19 @@ class Conductor {
     id = id;
   }
 
-  String getPretyValues([int level = 0]) {
-    var n1 = " " * (4 * level);
-    var n2 = " " * (4 * level + 4);
-    return [
-      n1 + "Conductor =>",
-      n2 + "name: $name",
-      category.getPretyValues(level + 1),
-      n2 + "diameter: $diameter",
-      n2 + "area: $area",
-      n2 + "weight: $weight",
-      n2 + "strength: $strength",
-      n2 + "r25: $r25",
-      n2 + "hcap: $hcap",
-      n2 + "id: $id",
-    ].join("\n");
-  }
-
-  @override
-  String toString() {
-    return getPretyValues();
-  }
+  // PretyPrint
+  String getTitle() => "Conductor =>";
+  List getData() => [
+        "name: $name",
+        ...category.getFormatedData(),
+        "diameter: $diameter",
+        "area: $area",
+        "weight: $weight",
+        "strength: $strength",
+        "r25: $r25",
+        "hcap: $hcap",
+        "id: $id",
+      ];
 
   // Checkers
   // void checkDiameter() => check(_diameter).gt(0);

@@ -1,8 +1,11 @@
 // CRISTIAN ECHEVERRÍA RABÍ
 
+import 'interfaces.dart';
+import 'checker.dart';
+
 //------------------------------------------------------------------------------
 
-class Category {
+class Category extends PrettyPrint {
   /*
 	Represents a category of conductors with similar characteristics
 	name    : Name of conductor category
@@ -13,70 +16,69 @@ class Category {
 	idx     : Database key
 	*/
   String name = "NONE";
-  double modelas = 0;
-  double coefexp = 0;
-  double creep = 0;
-  double alpha = 0;
+  double _modelas = 0.1;
+  double _coefexp = 0.1;
+  double _creep = 0;
+  double _alpha = 0.1;
   String id = "";
 
-  Category(this.name, this.modelas, this.coefexp, this.creep, this.alpha, [this.id = ""]);
+  Category(this.name, this._modelas, this._coefexp, this._creep, this._alpha, [this.id = ""]) {
+    checkModelas();
+    checkCoefexp();
+    checkCreep();
+    checkCreep();
+    checkAlpha();
+  }
 
   Category.none();
 
-  Category.forCurrent(this.alpha, {String name = "", String id = ""}) {
+  Category.forCurrent(this._alpha, {String name = "", String id = ""}) {
+    checkAlpha();
     name = name;
     id = id;
   }
 
-  String getPretyValues([int level = 0]) {
-    var n1 = " " * (4 * level);
-    var n2 = " " * (4 * level + 4);
-    return [
-      n1 + "Category =>",
-      n2 + "name: $name",
-      n2 + "modelas: $modelas",
-      n2 + "coefexp: $coefexp",
-      n2 + "creep: $creep",
-      n2 + "alpha: $alpha",
-      n2 + "id: $id",
-    ].join("\n");
-  }
-
-  @override
-  String toString() {
-    return getPretyValues();
-  }
+  // PretyPrint
+  String getTitle() => "Category =>";
+  List getData() => [
+        "name: $name",
+        "modelas: $_modelas",
+        "coefexp: $_coefexp",
+        "creep: $_creep",
+        "alpha: $_alpha",
+        "id: $id"
+      ];
 
   // Checkers
-  // void checkModelas() => check(_modelas).gt(0);
-  // void checkCoefexp() => check(_coefexp).gt(0);
-  // void checkCreep() => check(_creep).ge(0);
-  // void checkAlpha() => check(_alpha).gt(0).lt(1);
+  void checkModelas() => check(_modelas).gt(0);
+  void checkCoefexp() => check(_coefexp).gt(0);
+  void checkCreep() => check(_creep).ge(0);
+  void checkAlpha() => check(_alpha).gt(0).lt(1);
 
   // Getters & Setters
-  // double get modelas => _modelas;
-  // set modelas(double v) {
-  //   _modelas = v;
-  //   checkModelas();
-  // }
+  double get modelas => _modelas;
+  set modelas(double v) {
+    _modelas = v;
+    checkModelas();
+  }
 
-  // double get coefexp => _coefexp;
-  // set coefexp(double v) {
-  //   _coefexp = v;
-  //   checkCoefexp();
-  // }
+  double get coefexp => _coefexp;
+  set coefexp(double v) {
+    _coefexp = v;
+    checkCoefexp();
+  }
 
-  // double get creep => _creep;
-  // set creep(double v) {
-  //   _creep = v;
-  //   checkCreep();
-  // }
+  double get creep => _creep;
+  set creep(double v) {
+    _creep = v;
+    checkCreep();
+  }
 
-  // double get alpha => _alpha;
-  // set alpha(double v) {
-  //   _alpha = v;
-  //   checkAlpha();
-  // }
+  double get alpha => _alpha;
+  set alpha(double v) {
+    _alpha = v;
+    checkAlpha();
+  }
 }
 
 //------------------------------------------------------------------------------

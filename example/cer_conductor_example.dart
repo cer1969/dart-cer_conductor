@@ -19,5 +19,5 @@ void main() {
   var cc2 = CurrentCalc.fromData(0.00340, 25.17, 0.089360);
   print(cc2.getTc(25, 600));
 
-  print(cc2.conductor);
+  print(cc2.conductor.category);
 }

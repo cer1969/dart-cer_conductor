@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'interfaces.dart';
 import 'constants.dart';
 import 'checker.dart';
 import 'category.dart';
@@ -9,7 +10,7 @@ import 'conductor.dart';
 
 //------------------------------------------------------------------------------
 
-class CurrentCalc {
+class CurrentCalc extends PrettyPrint {
   /*
 	Object to calculate conductor current and temperatures.
 
@@ -37,6 +38,18 @@ class CurrentCalc {
     var cond = Conductor.forCurrent(cate, diameter, r25);
     conductor = cond;
   }
+
+  // PretyPrint
+  String getTitle() => "CurrentCalc =>";
+  List getData() => [
+        ...conductor.getFormatedData(),
+        "altitude: $_altitude",
+        "airVelocity: $_airVelocity",
+        "sunEffect: $_sunEffect",
+        "emissivity: $_emissivity",
+        "formula: $_formula",
+        "deltaTemp: $_deltaTemp",
+      ];
 
   // Checkers
   void checkConductor() {
