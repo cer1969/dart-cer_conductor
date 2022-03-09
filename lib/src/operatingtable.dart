@@ -1,13 +1,13 @@
 // CRISTIAN ECHEVERRÍA RABÍ
 
-import {check} from "./checker"
-import {CurrentCalc} from "./currentcalc"
-import * as k from "./constants"
+import 'constants.dart';
+import 'checker.dart';
+import 'currentcalc.dart';
 
 //--------------------------------------------------------------------------------------------------
 
-export class OperatingItem {
-	/*
+class OperatingItem {
+  /*
 	Container for conductor and operating conditions
 
 	Read-only properties
@@ -15,90 +15,96 @@ export class OperatingItem {
 	tempMaxOp   : Maximux operating temperature for currentcalc.conductor [°C]
 	nsc         : Number of subconductor per fase
 	*/
-	private _currentcalc: CurrentCalc;
-	private _tempMaxOp: number;
-	private _nsc: number;
+  CurrentCalc currentcalc;
+  double _tempMaxOp = 50;
+  int _nsc = 1;
 
-	constructor(currentcalc: CurrentCalc, tempMaxOp=50.0, nsc=1, altitude=300.0, emissivity=0.5) {
-		/*
-		currentcalc : CurrentCalc instance
-		tempMaxOp   : Maximum operating temperature for currentcalc.conductor [°C]
-		nsc         : Number of subconductor per face
-		altitude    : Altitude [m] = 300.0
-		emissivity  : Emissivity (0 to 1) = 0.5
-		*/
-		currentcalc.altitude = altitude;
-		currentcalc.emissivity = emissivity;
-		check(tempMaxOp).ge(k.TC_MIN).le(k.TC_MAX);
-		check(nsc).ge(1);
+  OperatingItem(this.currentcalc, {int nsc = 1, double altitude = 300, double emissivity = 0.5}) {
+    _nsc = nsc;
+    currentcalc.altitude = altitude;
+    currentcalc.emissivity = emissivity;
+  }
 
-		this._currentcalc = currentcalc;
-		this._tempMaxOp = tempMaxOp;
-		this._nsc = nsc;
-	}
+  // constructor(currentcalc: CurrentCalc, tempMaxOp=50.0, nsc=1, altitude=300.0, emissivity=0.5) {
+  // 	/*
+  // 	currentcalc : CurrentCalc instance
+  // 	tempMaxOp   : Maximum operating temperature for currentcalc.conductor [°C]
+  // 	nsc         : Number of subconductor per face
+  // 	altitude    : Altitude [m] = 300.0
+  // 	emissivity  : Emissivity (0 to 1) = 0.5
+  // 	*/
+  // 	currentcalc.altitude = altitude;
+  // 	currentcalc.emissivity = emissivity;
+  // 	check(tempMaxOp).ge(k.TC_MIN).le(k.TC_MAX);
+  // 	check(nsc).ge(1);
 
-	// Public methods
+  // 	this._currentcalc = currentcalc;
+  // 	this._tempMaxOp = tempMaxOp;
+  // 	this._nsc = nsc;
+  // }
 
-	getCurrent(ta: number): number {
-		/*
-		Returns current for the OperatingItems [ampere]
-		ta : Ambient temperature [°C]
-		*/
-		return this._currentcalc.getCurrent(ta, this._tempMaxOp) * this._nsc
-	}
+  // Public methods
 
-	getCurrentList(taList: Array<number>): Array<number> {
-		/*
-		Returns list with current [ampere]
-		taList: Secuence with ambient temperatures [°C]
-		*/
-		return taList.map(x => this.getCurrent(x));
-	}
+  // getCurrent(ta: number): number {
+  // 	/*
+  // 	Returns current for the OperatingItems [ampere]
+  // 	ta : Ambient temperature [°C]
+  // 	*/
+  // 	return this._currentcalc.getCurrent(ta, this._tempMaxOp) * this._nsc
+  // }
 
-	// Propiedades
+  // getCurrentList(taList: Array<number>): Array<number> {
+  // 	/*
+  // 	Returns list with current [ampere]
+  // 	taList: Secuence with ambient temperatures [°C]
+  // 	*/
+  // 	return taList.map(x => this.getCurrent(x));
+  // }
 
-	get currentcalc(): CurrentCalc {
-		return this._currentcalc;
-	}
+  // Propiedades
 
-	set currentcalc(value: CurrentCalc) {
-		throw new RangeError('OperatingItem.CurrentCalc is readonly');
-	}
+  // get currentcalc(): CurrentCalc {
+  // 	return this._currentcalc;
+  // }
 
-	get tempMaxOp(): number {
-		return this._tempMaxOp;
-	}
+  // set currentcalc(value: CurrentCalc) {
+  // 	throw new RangeError('OperatingItem.CurrentCalc is readonly');
+  // }
 
-	set tempMaxOp(value: number) {
-		throw new RangeError('OperatingItem.tempMaxOp is readonly');
-	}
+  // get tempMaxOp(): number {
+  // 	return this._tempMaxOp;
+  // }
 
-	get nsc(): number {
-		return this._nsc;
-	}
+  // set tempMaxOp(value: number) {
+  // 	throw new RangeError('OperatingItem.tempMaxOp is readonly');
+  // }
 
-	set nsc(value: number) {
-		throw new RangeError('OperatingItem.nsc is readonly');
-	}
+  // get nsc(): number {
+  // 	return this._nsc;
+  // }
+
+  // set nsc(value: number) {
+  // 	throw new RangeError('OperatingItem.nsc is readonly');
+  // }
 }
 
-export class OperatingTable {
-	/*
-	Mutable secuence to store OperatingItem instances and calculates current.
+// class OperatingTable {
+// 	/*
+// 	Mutable secuence to store OperatingItem instances and calculates current.
 
-	Constructor (Read-write properties)
-	items : Secuence with OperatingItem instance
-	idx   : Database key
-	*/
-	constructor(public items: Array<OperatingItem> = [], public idx?: string) {}
+// 	Constructor (Read-write properties)
+// 	items : Secuence with OperatingItem instance
+// 	idx   : Database key
+// 	*/
+// 	constructor(public items: Array<OperatingItem> = [], public idx?: string) {}
 
-	getCurrent(ta: number): number {
-		/*
-		Returns lowest current for the OperatingItems contained [ampere]
-		ta : Ambient temperature [°C]
-		*/
-		let ampList = this.items.map(item => item.getCurrent(ta));
-		return Math.min(...ampList);
-	}
+// 	getCurrent(ta: number): number {
+// 		/*
+// 		Returns lowest current for the OperatingItems contained [ampere]
+// 		ta : Ambient temperature [°C]
+// 		*/
+// 		let ampList = this.items.map(item => item.getCurrent(ta));
+// 		return Math.min(...ampList);
+// 	}
 
-}
+// }
