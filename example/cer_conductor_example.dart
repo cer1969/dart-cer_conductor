@@ -1,7 +1,10 @@
 import 'package:cer_conductor/cer_conductor.dart';
 
 void main() {
-  var cate = Category('AAAC (AASC)', 6450.0, 0.0000230, 20.0, 0.00340, 'AAAC');
+  //var cate = Category('AAAC (AASC)', 6450.0, 0.0000230, 20.0, 0.00340, 'AAAC');
+  var cate = Category.forCurrent(0.00340, name: 'AAAC (AASC)', id: 'AAAC');
+  print(cate);
+
   var cond = Conductor("AAAC 740,8 MCM FLINT", cate, 25.17, 375.4, 1.035, 11625, 0.089360, 0.052);
   print('Conductor name: ${cond.name}');
   print('Conductor category: ${cond.category.name}');

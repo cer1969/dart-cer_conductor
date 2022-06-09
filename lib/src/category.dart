@@ -32,10 +32,10 @@ class Category extends PrettyPrint {
 
   Category.none();
 
-  Category.forCurrent(this._alpha, {String name = "", String id = ""}) {
+  Category.forCurrent(this._alpha, {String this.name = "", String this.id = ""}) {
     checkAlpha();
-    name = name;
-    id = id;
+    //this.name = name;
+    //this.id = id;
   }
 
   // PretyPrint
